@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   p {
@@ -6,6 +6,6 @@ const Wrapper = styled.div`
     color: var(--grey-500);
     margin-top: 2rem;
   }
-`;
+`
 
-export default Wrapper;
+export default Wrapper

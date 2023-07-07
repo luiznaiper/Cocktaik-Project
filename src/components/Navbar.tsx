@@ -1,9 +1,10 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import Wrapper from '../assets/wrappers/Navbar'
 
 const Navbar = () => {
   return (
-    <nav>
+    <Wrapper>
       <div className="nav-center">
         <span className="logo">Luis Olivárez Mix</span>
         <div className="nav-links">
@@ -18,7 +19,7 @@ const Navbar = () => {
           </NavLink>
         </div>
       </div>
-    </nav>
+    </Wrapper>
   )
 }
 
