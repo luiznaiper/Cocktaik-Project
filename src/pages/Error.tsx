@@ -10,20 +10,19 @@ interface IError extends Error {
 const Error = () => {
   const error = useRouteError() as IError
 
-  if (error instanceof Error) {
-    if (error.status === 404) {
-      return (
-        <Wrapper>
-          <div>
-            <img src={img} alt="not found" />
-            <h3>Ohh!</h3>
-            <p>We can't seem to find page you are looking for</p>
-            <Link to="/">Back Home</Link>
-          </div>
-        </Wrapper>
-      )
-    }
+  if (error.status === 404) {
+    return (
+      <Wrapper>
+        <div>
+          <img src={img} alt="not found" />
+          <h3>Ohh!</h3>
+          <p>We can't seem to find page you are looking for</p>
+          <Link to="/">Back Home</Link>
+        </div>
+      </Wrapper>
+    )
   }
+
   return (
     <Wrapper>
       <div>
