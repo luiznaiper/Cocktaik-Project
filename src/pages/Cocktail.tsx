@@ -1,21 +1,41 @@
 import axios from 'axios'
 import React from 'react'
-import { useLoaderData } from 'react-router-dom'
+import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom'
 import Wrapper from '../assets/wrappers/CocktailPage'
 import { Link } from 'react-router-dom'
+
+interface DrinkData {
+  strDrink: string
+  strDrinkThumb: string
+  strAlcoholic: string
+  strCategory: string
+  strGlass: string
+  strInstructions: string
+}
+
+interface LoaderData {
+  id: string
+  data: { drinks: DrinkData[] }
+}
 
 const singleCocktailUrl =
   'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i='
 
-export const loader = async ({ params }) => {
-  const { id } = params
+export const loader = async ({
+  params,
+}: LoaderFunctionArgs): Promise<LoaderData> => {
+  const id = params.id
+  if (id === undefined) {
+    throw new Error('ID parameter is missing')
+  }
+
   const { data } = await axios.get(`${singleCocktailUrl}${id}`)
 
   return { id, data }
 }
 
 const Cocktail = () => {
-  const { id, data } = useLoaderData()
+  const { id, data } = useLoaderData() as LoaderData
 
   const singleDrink = data.drinks[0]
   const {
