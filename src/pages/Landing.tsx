@@ -2,6 +2,7 @@ import axios from 'axios'
 import React from 'react'
 import { useLoaderData } from 'react-router-dom'
 import CocktaikList, { Drink } from '../components/CocktaikList'
+import SearchForm from '../components/SearchForm'
 
 interface LoaderData {
   drinks: Drink[]
@@ -22,6 +23,7 @@ const Landing = () => {
 
   return (
     <>
+      <SearchForm />
       <CocktaikList drinks={drinks} />
     </>
   )
