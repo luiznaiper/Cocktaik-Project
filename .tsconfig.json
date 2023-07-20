@@ -12,7 +12,8 @@
     "allowJs": true,
     "isolatedModules": true,
     "noEmit": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "build": "tsc -p path/to/your/tsconfig.json && vite build"
   },
   "include": ["src/**/*", "types/*"]
 }
