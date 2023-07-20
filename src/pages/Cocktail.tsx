@@ -3,6 +3,7 @@ import React from 'react'
 import { LoaderFunctionArgs, Navigate, useLoaderData } from 'react-router-dom'
 import Wrapper from '../assets/wrappers/CocktailPage'
 import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 
 interface DrinkData {
   strDrink: string
@@ -16,27 +17,37 @@ interface DrinkData {
 
 interface LoaderData {
   id: string
-  data: { drinks: DrinkData[] }
+  data?: { drinks: DrinkData[] }
 }
 
 const singleCocktailUrl =
   'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i='
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs): Promise<LoaderData> => {
-  const id = params.id
-  if (id === undefined) {
-    throw new Error('ID parameter is missing')
+const singleCocktailQuery = (id) => {
+  return {
+    queryKey: ['cocktail', id],
+    queryFn: async () => {
+      const { data } = await axios.get(`${singleCocktailUrl}${id}`)
+      return data
+    },
   }
-
-  const { data } = await axios.get(`${singleCocktailUrl}${id}`)
-
-  return { id, data }
 }
 
+export const loader =
+  (queryClient) =>
+  async ({ params }: LoaderFunctionArgs): Promise<LoaderData> => {
+    const id = params.id
+    if (id === undefined) {
+      throw new Error('ID parameter is missing')
+    }
+    await queryClient.ensureQueryData(singleCocktailQuery(id))
+    return { id }
+  }
+
 const Cocktail = () => {
-  const { id, data } = useLoaderData() as LoaderData
+  const { id } = useLoaderData() as LoaderData
+
+  const { data } = useQuery(singleCocktailQuery(id))
 
   if (!data) return <Navigate to="/" />
 
